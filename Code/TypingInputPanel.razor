@@ -1,0 +1,54 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root></root>
+
+@code
+{
+	public Action<char> OnCharTyped { get; set; }
+
+	private KeySinkPanel _sink;
+
+	protected override void OnTreeFirstBuilt()
+	{
+		_sink = Panel.AddChild( new KeySinkPanel() );
+		_sink.Owner = this;
+		_sink.Style.Width = 0;
+		_sink.Style.Height = 0;
+		_sink.Style.Overflow = OverflowMode.Hidden;
+
+		Enable();
+	}
+
+	protected override void OnDestroy()
+	{
+		Disable();
+		base.OnDestroy();
+	}
+
+	public void Enable()
+	{
+		if ( _sink is null ) return;
+		_sink.AcceptsFocus = true;
+		_sink.Focus();
+	}
+
+	public void Disable()
+	{
+		if ( _sink is null ) return;
+		_sink.Blur();
+		_sink.AcceptsFocus = false;
+	}
+
+	private class KeySinkPanel : Panel
+	{
+		public TypingInputPanel Owner { get; set; }
+
+		public override void OnKeyTyped( char k )
+		{
+			Owner?.OnCharTyped?.Invoke( k );
+		}
+	}
+}

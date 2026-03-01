@@ -1,0 +1,41 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using System
+@inherits PanelComponent
+
+<root>
+	<div class="container">
+		<div class="stat">
+			<div class="value">@WpmText</div>
+			<div class="title">WPM</div>
+		</div>
+		<div class="stat">
+			<div class="value">@CharsText</div>
+			<div class="title">CHARACTERS</div>
+		</div>
+		<div class="stat">
+			<div class="value">@TimeText</div>
+			<div class="title">TIME</div>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	[Property]
+	public TypingGame TypingGameRef { get; set; }
+
+	string WpmText => TypingGameRef?.WPM.ToString( "F0" ) ?? "--";
+	string CharsText => TypingGameRef is not null ? $"{TypingGameRef.CurrentIndex}/{TypingGameRef.TotalCharacters}" : "--/--";
+	string TimeText => TypingGameRef is not null ? $"{TypingGameRef.ElapsedTime:F1}s" : "--s";
+
+	protected override int BuildHash() => HashCode.Combine( WpmText, CharsText, TimeText );
+
+	protected override void OnStart()
+	{
+		base.OnStart();
+
+		if ( TypingGameRef is null )
+			TypingGameRef = Components.Get<TypingGame>();
+	}
+}
