@@ -31,6 +31,8 @@ public sealed class TypingGame : Component
 
 	[Property] public Vector3 CameraOffset { get; set; } = new Vector3( -200f, 0f, 50f );
 
+	[Property] public GameObject TypedLetterCubePrefab { get; set; }
+
 	private GameManager _gameManager;
 	private Dictionary<Guid, PlayerRowData> _playerRows = new();
 	private TextRenderer _flashRenderer;
@@ -180,7 +182,8 @@ public sealed class TypingGame : Component
 			int idx = rowData.LastKnownIndex;
 			if ( !rowData.CubeSpawned[idx] )
 			{
-				SpawnTypedCube( rowData.LetterObjects[idx] );
+				string letter = idx < _currentTargetText.Length ? _currentTargetText[idx].ToString() : "";
+				SpawnTypedCube( rowData.LetterObjects[idx], letter );
 				rowData.CubeSpawned[idx] = true;
 			}
 
@@ -290,7 +293,7 @@ public sealed class TypingGame : Component
 		if ( localPlayer.CurrentIndex >= _currentTargetText.Length )
 			return;
 
-		if ( typed == _currentTargetText[localPlayer.CurrentIndex] )
+		if ( char.ToLowerInvariant( typed ) == char.ToLowerInvariant( _currentTargetText[localPlayer.CurrentIndex] ) )
 			HandleCorrectKey( localPlayer );
 		else
 			HandleWrongKey( localPlayer );
@@ -331,20 +334,32 @@ public sealed class TypingGame : Component
 		CameraShaker.Instance?.ShakeAndZoom( ZoomDirection.Out );
 	}
 
-	private void SpawnTypedCube( GameObject letterGo )
+	private void SpawnTypedCube( GameObject letterGo, string letter )
 	{
 		if ( !letterGo.IsValid() )
 			return;
 
-		var cubeGo = new GameObject( letterGo, true, "TypedCube" );
-		cubeGo.LocalPosition = new Vector3( CubeDepthOffset, 0f, 0f );
-		cubeGo.LocalScale = new Vector3( 0.01f );
+		if ( TypedLetterCubePrefab.IsValid() )
+		{
+			var cubeGo = TypedLetterCubePrefab.Clone();
+			cubeGo.Parent = letterGo;
+			cubeGo.LocalPosition = new Vector3( CubeDepthOffset, 0f, 0f );
+			cubeGo.LocalScale = new Vector3( 0.01f );
 
-		var modelRenderer = cubeGo.AddComponent<ModelRenderer>();
+			var typedCube = cubeGo.GetComponent<TypedLetterCube>();
+			typedCube?.Initialize( letter, CompletedCubeColor, CubeSize, CubeGrowSpeed, FontSize );
+			return;
+		}
+
+		var fallbackGo = new GameObject( letterGo, true, "TypedCube" );
+		fallbackGo.LocalPosition = new Vector3( CubeDepthOffset, 0f, 0f );
+		fallbackGo.LocalScale = new Vector3( 0.01f );
+
+		var modelRenderer = fallbackGo.AddComponent<ModelRenderer>();
 		modelRenderer.Model = Model.Cube;
 		modelRenderer.Tint = CompletedCubeColor;
 
-		var animator = cubeGo.AddComponent<CubeScaleAnimator>();
+		var animator = fallbackGo.AddComponent<CubeScaleAnimator>();
 		animator.TargetScale = CubeSize;
 		animator.Speed = CubeGrowSpeed;
 	}

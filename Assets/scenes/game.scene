@@ -140,6 +140,10 @@
           "OnComponentStart": null,
           "OnComponentUpdate": null,
           "OtherPlayerHighlightColor": "1,0.5,0,0.5",
+          "TypedLetterCubePrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/typed_letter_cube.prefab"
+          },
           "WrongSound": "error"
         },
         {
@@ -162,18 +166,17 @@
           "TargetText": "the quick brown fox jumps over the lazy dog"
         },
         {
-          "__type": "NametagManager",
-          "__guid": "01f90dae-17e5-4821-8816-d89f41864311",
+          "__type": "QuoteManager",
+          "__guid": "c4935fa7-f2fe-4dfc-88c8-335bf899a3a0",
           "__enabled": true,
           "Flags": 0,
-          "NametagOffset": "0,0,100",
+          "Difficulty": "Medium",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
-          "OnComponentUpdate": null,
-          "PanelSize": "2000,1250"
+          "OnComponentUpdate": null
         }
       ],
       "Children": []
