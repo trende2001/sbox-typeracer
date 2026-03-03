@@ -1,0 +1,50 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@if ( Network.Owner is Connection owner )
+{
+	<root>
+
+		<div class="card">
+			<div class="avatar" style="background-image: url( avatar:@owner.SteamId )"></div>
+			<div class="name">@owner.DisplayName</div>
+
+			@if ( IsVoicePlaying )
+			{
+				<div class="voice">volume_up</div>
+			}
+		</div>
+		<div class="card">
+			<div class="name">@playerState.WPM WPM</div>
+		</div>
+
+	</root>
+}
+
+@code
+{
+	Sandbox.Voice voiceComponent;
+	PlayerState playerState;
+
+	protected override void OnEnabled()
+	{
+		base.OnEnabled();
+		playerState = GameObject.Root.Components.GetInDescendantsOrSelf<PlayerState>();
+		voiceComponent = GameObject.Root.Components.GetInDescendantsOrSelf<Voice>();
+	}
+
+	public bool IsVoicePlaying
+	{
+		get
+		{
+			if ( voiceComponent is null ) return false;
+			return voiceComponent.LastPlayed < 0.5f;
+		}
+	}
+
+	/// <summary>
+	/// Rebuild if the owner connection changes
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( Network.Owner, IsVoicePlaying, playerState.WPM );
+}

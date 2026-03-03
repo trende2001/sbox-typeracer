@@ -25,7 +25,7 @@
           "BackgroundColor": "0.33333,0.46275,0.52157,1",
           "ClearFlags": "All",
           "EnablePostProcessing": true,
-          "FieldOfView": 60,
+          "FieldOfView": 40,
           "FovAxis": "Horizontal",
           "IsMainCamera": true,
           "OnComponentDestroy": null,
@@ -45,6 +45,22 @@
           "Viewport": "0,0,1,1",
           "ZFar": 10000,
           "ZNear": 10
+        },
+        {
+          "__type": "CameraShaker",
+          "__guid": "8363671d-0f55-4013-8a8f-0754ac1d5afa",
+          "__enabled": true,
+          "Flags": 0,
+          "DefaultDuration": 0.15,
+          "DefaultIntensity": 8,
+          "DefaultZoomIntensity": 50,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "ShakeFrequency": 30
         }
       ],
       "Children": []
@@ -116,15 +132,48 @@
           "CurrentLetterHighlightColor": "1,1,1,1",
           "ErrorFlashDuration": 0.15,
           "FontSize": 32,
-          "LetterSpacing": 48,
+          "LetterSpacing": 50,
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
           "OnComponentUpdate": null,
-          "TargetText": "the quick brown fox jumps over the lazy dog",
-          "WrongSound": "ui.navigate.deny"
+          "OtherPlayerHighlightColor": "1,0.5,0,0.5",
+          "WrongSound": "error"
+        },
+        {
+          "__type": "GameManager",
+          "__guid": "11643b24-6e62-429a-9001-42607839b077",
+          "__enabled": true,
+          "Flags": 0,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "PlayerStatePrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/playerstate.prefab"
+          },
+          "RowSpacing": 148.83179,
+          "StartServer": true,
+          "TargetText": "the quick brown fox jumps over the lazy dog"
+        },
+        {
+          "__type": "NametagManager",
+          "__guid": "01f90dae-17e5-4821-8816-d89f41864311",
+          "__enabled": true,
+          "Flags": 0,
+          "NametagOffset": "0,0,100",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "PanelSize": "2000,1250"
         }
       ],
       "Children": []
@@ -173,13 +222,7 @@
           "OnComponentEnabled": null,
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
-          "OnComponentUpdate": null,
-          "TypingGameRef": {
-            "_type": "component",
-            "component_id": "1785eed8-b409-470e-b570-651b2b22d66f",
-            "go": "92f98090-cf7f-4239-87fc-8ba10ee2a2ac",
-            "component_type": "TypingGame"
-          }
+          "OnComponentUpdate": null
         },
         {
           "__type": "Sandbox.TypingInputPanel",

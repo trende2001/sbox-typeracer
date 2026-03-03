@@ -1,0 +1,48 @@
+
+NameTagPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-weight: bold;
+
+  .card {
+    flex-direction: row;
+    border-radius: 5px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 128px;
+
+    .avatar {
+      width: 128px;
+      height: 128px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 100px;
+    }
+
+    .name {
+      font-family: Poppins;
+      color: #fff;
+    }
+
+    .voice {
+      background-color: #111a;
+      border-radius: 20px;
+      padding: 4px;
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      font-family: "Material Icons";
+      font-size: 24px;
+      color: #aaa;
+    }
+  }
+}
