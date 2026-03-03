@@ -22,20 +22,25 @@
 
 @code
 {
-	[Property]
-	public TypingGame TypingGameRef { get; set; }
+	private GameManager _gameManager;
+	private PlayerState _localPlayer;
 
-	string WpmText => TypingGameRef?.WPM.ToString( "F0" ) ?? "--";
-	string CharsText => TypingGameRef is not null ? $"{TypingGameRef.CurrentIndex}/{TypingGameRef.TotalCharacters}" : "--/--";
-	string TimeText => TypingGameRef is not null ? $"{TypingGameRef.ElapsedTime:F1}s" : "--s";
+	string WpmText => _localPlayer?.WPM.ToString( "F0" ) ?? "--";
+	string CharsText => _localPlayer is not null && _gameManager is not null 
+		? $"{_localPlayer.CurrentIndex}/{_gameManager.SyncedTargetText?.Length ?? 0}" 
+		: "--/--";
+	string TimeText => _localPlayer is not null ? $"{_localPlayer.GetElapsedTime():F1}s" : "--s";
 
 	protected override int BuildHash() => HashCode.Combine( WpmText, CharsText, TimeText );
 
 	protected override void OnStart()
 	{
 		base.OnStart();
+		_gameManager = Scene.GetAllComponents<GameManager>().FirstOrDefault();
+	}
 
-		if ( TypingGameRef is null )
-			TypingGameRef = Components.Get<TypingGame>();
+	protected override void OnUpdate()
+	{
+		_localPlayer = _gameManager?.GetLocalPlayer();
 	}
 }

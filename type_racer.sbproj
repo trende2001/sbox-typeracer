@@ -1,11 +1,11 @@
 {
   "Title": "Type Racer",
   "Type": "game",
-  "Org": "local",
+  "Org": "trend",
   "Ident": "type_racer",
   "Schema": 1,
   "IncludeSourceFiles": false,
-  "Resources": null,
+  "Resources": "fonts/*\nicons/*\nui/*",
   "PackageReferences": [],
   "EditorReferences": null,
   "Mounts": null,
@@ -23,6 +23,7 @@
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "CsProjName": "",
-    "StartupScene": "scenes/minimal.scene"
+    "LaunchMode": "Normal",
+    "StartupScene": "scenes/game.scene"
   }
 }
