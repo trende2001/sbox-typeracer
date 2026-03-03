@@ -65,8 +65,11 @@ public sealed class GameManager : Component, Component.INetworkListener
 
 	protected override void OnStart()
 	{
-		if ( Networking.IsHost )
-			SyncedTargetText = TargetText;
+		if ( !Networking.IsHost )
+			return;
+
+		var passage = QuoteManager.Instance?.GetRandomQuote();
+		SyncedTargetText = !string.IsNullOrEmpty( passage ) ? passage : TargetText;
 	}
 
 	public void OnActive( Connection channel )
@@ -112,6 +115,10 @@ public sealed class GameManager : Component, Component.INetworkListener
 	{
 		if ( !Networking.IsHost )
 			return;
+
+		var passage = QuoteManager.Instance?.GetRandomQuote();
+		if ( !string.IsNullOrEmpty( passage ) )
+			SyncedTargetText = passage;
 
 		RaceStarted = true;
 		RaceStartTime = Time.Now;
